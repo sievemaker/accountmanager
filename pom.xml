@@ -30,12 +30,25 @@
         <junit-version>4.12</junit-version>
         <migbase64-version>2.2</migbase64-version>
         <jackson-databind-nullable>0.2.1</jackson-databind-nullable>
+        <spock-core.version>2.0-M2-groovy-3.0</spock-core.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-core</artifactId>
+            <version>${spock-core.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-spring</artifactId>
+            <version>${spock-core.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.swagger</groupId>
