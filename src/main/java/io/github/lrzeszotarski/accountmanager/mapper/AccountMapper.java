@@ -1,4 +1,11 @@
 package io.github.lrzeszotarski.accountmanager.mapper;
 
-public class AccountMapper {
+import io.github.lrzeszotarski.accountmanager.api.model.Account;
+import org.mapstruct.Mapper;
+
+@Mapper
+public interface AccountMapper {
+    Account toDto(io.github.lrzeszotarski.accountmanager.domain.entity.Account account);
+
+    io.github.lrzeszotarski.accountmanager.domain.entity.Account toEntity(Account account);
 }
