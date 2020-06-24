@@ -10,14 +10,4 @@ public class AccountApiDelegateImpl implements AccountApiDelegate {
     public ResponseEntity<Account> createAccount(Account body) {
         return null;
     }
-
-    @Override
-    public ResponseEntity<Account> getAccounts(String accountId) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<Account> updateAccount(Account body) {
-        return null;
-    }
 }
