@@ -1,0 +1,144 @@
+openapi: 3.0.1
+info:
+  title: Swagger for Account Manager
+  description: Spring Boot that allows to manage accounts and collect events for an
+    account.
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://petstore.swagger.io/v2
+  - url: http://petstore.swagger.io/v2
+tags:
+  - name: account
+    description: Account Manager
+paths:
+  /account:
+    put:
+      tags:
+        - account
+      summary: Update an existing account
+      operationId: updateAccount
+      requestBody:
+        description: Account object that needs to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Account'
+        required: true
+      responses:
+        200:
+          description: Creates Account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Account not found
+          content: {}
+        405:
+          description: Validation exception
+          content: {}
+      x-codegen-request-body-name: body
+    post:
+      tags:
+        - account
+      summary: Create an account
+      operationId: createAccount
+      requestBody:
+        description: Account object that needs to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Account'
+        required: true
+      responses:
+        200:
+          description: Creates Account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        405:
+          description: Invalid input
+          content: {}
+      x-codegen-request-body-name: body
+  /account/{accountId}:
+    get:
+      tags:
+        - account
+      summary: Get an existing account
+      operationId: getAccounts
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Creates Account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Account not found
+          content: {}
+        405:
+          description: Validation exception
+          content: {}
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+        name:
+          type: string
+      xml:
+        name: Account
+    Event:
+      type: object
+      properties:
+        eventId:
+          type: integer
+          format: int64
+        type:
+          type: string
+        happenedAt:
+          type: string
+          format: date-time
+      xml:
+        name: Event
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
