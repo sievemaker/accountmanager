@@ -47,4 +47,9 @@ public class AccountApiDelegateImpl implements AccountApiDelegate {
         io.github.lrzeszotarski.accountmanager.domain.entity.Event entity = eventMapper.toEntity(body);
         return ResponseEntity.ok(eventMapper.toDto(accountService.createEvent(UUID.fromString(accountId), entity)));
     }
+
+    @Override
+    public ResponseEntity<Event> searchEvent(String accountId, String eventId) {
+        return ResponseEntity.ok(eventMapper.toDto(accountService.findEvent(UUID.fromString(eventId))));
+    }
 }

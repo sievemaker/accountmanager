@@ -3,6 +3,7 @@ package io.github.lrzeszotarski.accountmanager.domain.service;
 import io.github.lrzeszotarski.accountmanager.domain.entity.Account;
 import io.github.lrzeszotarski.accountmanager.domain.entity.Event;
 import io.github.lrzeszotarski.accountmanager.domain.repository.AccountRepository;
+import io.github.lrzeszotarski.accountmanager.domain.repository.EventRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -14,10 +15,13 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
 
+    private final EventRepository eventRepository;
+
     private final IdentifierService identifierService;
 
-    public AccountServiceImpl(AccountRepository accountRepository, IdentifierService identifierService) {
+    public AccountServiceImpl(AccountRepository accountRepository, EventRepository eventRepository, IdentifierService identifierService) {
         this.accountRepository = accountRepository;
+        this.eventRepository = eventRepository;
         this.identifierService = identifierService;
     }
 
@@ -46,5 +50,10 @@ public class AccountServiceImpl implements AccountService {
         account.getEventList().add(entity);
         accountRepository.save(account);
         return entity;
+    }
+
+    @Override
+    public Event findEvent(UUID eventId) {
+        return eventRepository.findByEventId(eventId);
     }
 }

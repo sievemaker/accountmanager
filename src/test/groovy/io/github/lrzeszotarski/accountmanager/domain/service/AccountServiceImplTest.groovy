@@ -3,15 +3,18 @@ package io.github.lrzeszotarski.accountmanager.domain.service
 import io.github.lrzeszotarski.accountmanager.domain.entity.Account
 import io.github.lrzeszotarski.accountmanager.domain.entity.Event
 import io.github.lrzeszotarski.accountmanager.domain.repository.AccountRepository
+import io.github.lrzeszotarski.accountmanager.domain.repository.EventRepository
 import spock.lang.Specification
 
 class AccountServiceImplTest extends Specification {
 
     def accountRepository = Mock(AccountRepository)
 
+    def eventRepository = Mock(EventRepository)
+
     def identifierService = Mock(IdentifierService)
 
-    def testedInstance = new AccountServiceImpl(accountRepository, identifierService)
+    def testedInstance = new AccountServiceImpl(accountRepository, eventRepository, identifierService)
 
     def "test createAccount"() {
         given:
@@ -65,5 +68,17 @@ class AccountServiceImplTest extends Specification {
         account.getEventList().size() == 1
         account.getEventList().get(0).getEventId() == eventUuid
         account.getEventList().get(0) == createdEvent
+    }
+
+    def "test findEvent"() {
+        given:
+        def uuid = UUID.randomUUID()
+        def event = new Event(eventId: uuid)
+        when:
+        def searchedEvent = testedInstance.findEvent(uuid)
+        then:
+        1 * eventRepository.findByEventId(uuid) >> event
+        event == searchedEvent
+        searchedEvent.getEventId() == uuid
     }
 }

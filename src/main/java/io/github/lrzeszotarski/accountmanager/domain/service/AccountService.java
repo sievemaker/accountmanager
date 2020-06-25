@@ -13,4 +13,6 @@ public interface AccountService {
     Account updateAccount(Account account);
 
     Event createEvent(UUID accountId, Event entity);
+
+    Event findEvent(UUID fromString);
 }
