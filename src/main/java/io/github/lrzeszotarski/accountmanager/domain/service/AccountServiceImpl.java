@@ -1,6 +1,7 @@
 package io.github.lrzeszotarski.accountmanager.domain.service;
 
 import io.github.lrzeszotarski.accountmanager.domain.entity.Account;
+import io.github.lrzeszotarski.accountmanager.domain.entity.Event;
 import io.github.lrzeszotarski.accountmanager.domain.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 
@@ -36,5 +37,14 @@ public class AccountServiceImpl implements AccountService {
         final Account existingAccount = accountRepository.findByAccountId(account.getAccountId());
         existingAccount.setName(account.getName());
         return existingAccount;
+    }
+
+    @Override
+    public Event createEvent(UUID accountId, Event entity) {
+        final Account account = accountRepository.findByAccountId(accountId);
+        entity.setEventId(identifierService.generateIdentifier());
+        account.getEventList().add(entity);
+        accountRepository.save(account);
+        return entity;
     }
 }

@@ -1,6 +1,7 @@
 package io.github.lrzeszotarski.accountmanager.domain.service
 
 import io.github.lrzeszotarski.accountmanager.domain.entity.Account
+import io.github.lrzeszotarski.accountmanager.domain.entity.Event
 import io.github.lrzeszotarski.accountmanager.domain.repository.AccountRepository
 import spock.lang.Specification
 
@@ -10,14 +11,14 @@ class AccountServiceImplTest extends Specification {
 
     def identifierService = Mock(IdentifierService)
 
-    def accountService = new AccountServiceImpl(accountRepository, identifierService)
+    def testedInstance = new AccountServiceImpl(accountRepository, identifierService)
 
     def "test createAccount"() {
         given:
         def account = new Account()
         def uuid = UUID.randomUUID()
         when:
-        def createdAccount = accountService.createAccount(account)
+        def createdAccount = testedInstance.createAccount(account)
         then:
         1 * accountRepository.save(account) >> account
         1 * identifierService.generateIdentifier() >> uuid
@@ -31,7 +32,7 @@ class AccountServiceImplTest extends Specification {
         def existingAccount = new Account(accountId: uuid, name: "Sample Name")
         def updatedAccount = new Account(accountId: uuid, name: "New Sample Name")
         when:
-        def accountAfterUpdate = accountService.updateAccount(updatedAccount)
+        def accountAfterUpdate = testedInstance.updateAccount(updatedAccount)
         then:
         1 * accountRepository.findByAccountId(existingAccount.getAccountId()) >> existingAccount
         accountAfterUpdate.getName() == "New Sample Name"
@@ -42,10 +43,27 @@ class AccountServiceImplTest extends Specification {
         def uuid = UUID.randomUUID()
         def account = new Account(accountId: uuid)
         when:
-        def searchedAccount = accountService.findAccount(uuid)
+        def searchedAccount = testedInstance.findAccount(uuid)
         then:
         1 * accountRepository.findByAccountId(uuid) >> account
         account == searchedAccount
         searchedAccount.getAccountId() == uuid
+    }
+
+    def "test createEvent"() {
+        given:
+        def accountUuid = UUID.randomUUID()
+        def eventUuid = UUID.randomUUID()
+        def account = new Account(accountId: accountUuid, eventList: new ArrayList<Event>())
+        def event = new Event()
+        when:
+        def createdEvent = testedInstance.createEvent(accountUuid, event)
+        then:
+        1 * accountRepository.findByAccountId(accountUuid) >> account
+        1 * accountRepository.save(account)
+        1 * identifierService.generateIdentifier() >> eventUuid
+        account.getEventList().size() == 1
+        account.getEventList().get(0).getEventId() == eventUuid
+        account.getEventList().get(0) == createdEvent
     }
 }

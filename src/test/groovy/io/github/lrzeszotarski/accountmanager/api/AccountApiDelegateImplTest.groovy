@@ -1,17 +1,21 @@
 package io.github.lrzeszotarski.accountmanager.api
 
 import io.github.lrzeszotarski.accountmanager.api.model.Account
+import io.github.lrzeszotarski.accountmanager.api.model.Event
 import io.github.lrzeszotarski.accountmanager.domain.service.AccountService
 import io.github.lrzeszotarski.accountmanager.mapper.AccountMapper
+import io.github.lrzeszotarski.accountmanager.mapper.EventMapper
 import spock.lang.Specification
 
 class AccountApiDelegateImplTest extends Specification {
 
     def accountMapper  = Mock(AccountMapper)
 
+    def eventMapper = Mock(EventMapper)
+
     def accountService = Mock(AccountService)
 
-    def testedInstance = new AccountApiDelegateImpl(accountMapper, accountService)
+    def testedInstance = new AccountApiDelegateImpl(accountMapper, eventMapper, accountService)
 
     def "CreateAccount"() {
         given:
@@ -47,5 +51,18 @@ class AccountApiDelegateImplTest extends Specification {
         1 * accountMapper.toEntity(account) >> accountEntity
         1 * accountService.updateAccount(accountEntity) >> updatedEntity
         1 * accountMapper.toDto(updatedEntity)
+    }
+
+    def "CreateEvent"() {
+        given:
+        def event = new Event()
+        def eventEntity = new io.github.lrzeszotarski.accountmanager.domain.entity.Event()
+        def accountId = UUID.randomUUID().toString()
+        when:
+        testedInstance.createEvent(accountId, event)
+        then:
+        1 * eventMapper.toEntity(event) >> eventEntity
+        1 * accountService.createEvent(UUID.fromString(accountId), eventEntity) >> eventEntity
+        1 * eventMapper.toDto(eventEntity)
     }
 }

@@ -18,6 +18,6 @@ public class Account {
     private UUID accountId;
     private String name;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Event> eventList;
 }

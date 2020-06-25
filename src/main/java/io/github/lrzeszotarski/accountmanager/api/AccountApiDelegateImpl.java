@@ -2,9 +2,9 @@ package io.github.lrzeszotarski.accountmanager.api;
 
 import io.github.lrzeszotarski.accountmanager.api.model.Account;
 import io.github.lrzeszotarski.accountmanager.api.model.Event;
-import io.github.lrzeszotarski.accountmanager.domain.repository.AccountRepository;
 import io.github.lrzeszotarski.accountmanager.domain.service.AccountService;
 import io.github.lrzeszotarski.accountmanager.mapper.AccountMapper;
+import io.github.lrzeszotarski.accountmanager.mapper.EventMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +15,13 @@ public class AccountApiDelegateImpl implements AccountApiDelegate {
 
     private final AccountMapper accountMapper;
 
+    private final EventMapper eventMapper;
+
     private final AccountService accountService;
 
-    public AccountApiDelegateImpl(AccountMapper accountMapper, AccountService accountService) {
+    public AccountApiDelegateImpl(AccountMapper accountMapper, EventMapper eventMapper, AccountService accountService) {
         this.accountMapper = accountMapper;
+        this.eventMapper = eventMapper;
         this.accountService = accountService;
     }
 
@@ -41,6 +44,7 @@ public class AccountApiDelegateImpl implements AccountApiDelegate {
 
     @Override
     public ResponseEntity<Event> createEvent(String accountId, Event body) {
-        return null;
+        io.github.lrzeszotarski.accountmanager.domain.entity.Event entity = eventMapper.toEntity(body);
+        return ResponseEntity.ok(eventMapper.toDto(accountService.createEvent(UUID.fromString(accountId), entity)));
     }
 }
