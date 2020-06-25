@@ -93,7 +93,7 @@ paths:
             type: string
       responses:
         200:
-          description: Creates Account
+          description: Searched Event
           content:
             application/json:
               schema:
@@ -107,6 +107,67 @@ paths:
         405:
           description: Validation exception
           content: {}
+  /account/{accountId}/event:
+    post:
+      tags:
+        - account
+      summary: Create an event
+      operationId: createEvent
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Event object that needs to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Event'
+        required: true
+      responses:
+        200:
+          description: Creates Event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        405:
+          description: Invalid input
+          content: {}
+      x-codegen-request-body-name: body
+  /account/{accountId}/event/{eventId}:
+    get:
+      tags:
+        - account
+      summary: Get an existing Event
+      operationId: searchEvent
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Creates Event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        405:
+          description: Invalid input
+          content: {}
+      x-codegen-request-body-name: body
 components:
   schemas:
     Account:
