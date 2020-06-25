@@ -1,6 +1,7 @@
 package io.github.lrzeszotarski.accountmanager.api;
 
 import io.github.lrzeszotarski.accountmanager.api.model.Account;
+import io.github.lrzeszotarski.accountmanager.api.model.Event;
 import io.github.lrzeszotarski.accountmanager.domain.repository.AccountRepository;
 import io.github.lrzeszotarski.accountmanager.domain.service.AccountService;
 import io.github.lrzeszotarski.accountmanager.mapper.AccountMapper;
@@ -36,5 +37,10 @@ public class AccountApiDelegateImpl implements AccountApiDelegate {
     public ResponseEntity<Account> updateAccount(Account body) {
         io.github.lrzeszotarski.accountmanager.domain.entity.Account entity = accountMapper.toEntity(body);
         return ResponseEntity.ok(accountMapper.toDto(accountService.updateAccount(entity)));
+    }
+
+    @Override
+    public ResponseEntity<Event> createEvent(String accountId, Event body) {
+        return null;
     }
 }
