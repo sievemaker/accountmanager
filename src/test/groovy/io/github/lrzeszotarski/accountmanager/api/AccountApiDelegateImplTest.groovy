@@ -24,4 +24,15 @@ class AccountApiDelegateImplTest extends Specification {
         1 * accountService.createAccount(accountEntity) >> accountEntity
         1 * accountMapper.toDto(accountEntity)
     }
+
+    def "FindAccount"() {
+        given:
+        def accountId = UUID.randomUUID().toString()
+        def accountEntity = new io.github.lrzeszotarski.accountmanager.domain.entity.Account()
+        when:
+        testedInstance.getAccounts(accountId)
+        then:
+        1 * accountService.findAccount(UUID.fromString(accountId)) >> accountEntity
+        1 * accountMapper.toDto(accountEntity)
+    }
 }

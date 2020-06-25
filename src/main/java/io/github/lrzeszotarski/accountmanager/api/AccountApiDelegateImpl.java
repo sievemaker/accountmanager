@@ -7,7 +7,7 @@ import io.github.lrzeszotarski.accountmanager.mapper.AccountMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import java.util.UUID;
 
 @Service
 public class AccountApiDelegateImpl implements AccountApiDelegate {
@@ -25,5 +25,10 @@ public class AccountApiDelegateImpl implements AccountApiDelegate {
     public ResponseEntity<Account> createAccount(Account body) {
         io.github.lrzeszotarski.accountmanager.domain.entity.Account entity = accountMapper.toEntity(body);
         return ResponseEntity.ok(accountMapper.toDto(accountService.createAccount(entity)));
+    }
+
+    @Override
+    public ResponseEntity<Account> getAccounts(String accountId) {
+        return ResponseEntity.ok(accountMapper.toDto(accountService.findAccount(UUID.fromString(accountId))));
     }
 }

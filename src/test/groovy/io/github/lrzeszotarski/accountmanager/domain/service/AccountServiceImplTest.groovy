@@ -24,4 +24,16 @@ class AccountServiceImplTest extends Specification {
         account == createdAccount
         createdAccount.getAccountId() == uuid
     }
+
+    def "test findAccount"() {
+        given:
+        def uuid = UUID.randomUUID()
+        def account = new Account(accountId: uuid)
+        when:
+        def searchedAccount = accountService.findAccount(uuid)
+        then:
+        1 * accountRepository.findByAccountId(uuid) >> account
+        account == searchedAccount
+        searchedAccount.getAccountId() == uuid
+    }
 }
