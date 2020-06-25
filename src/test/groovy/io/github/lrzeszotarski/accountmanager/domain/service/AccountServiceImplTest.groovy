@@ -25,6 +25,18 @@ class AccountServiceImplTest extends Specification {
         createdAccount.getAccountId() == uuid
     }
 
+    def "test updateAccount"() {
+        given:
+        def uuid = UUID.randomUUID()
+        def existingAccount = new Account(accountId: uuid, name: "Sample Name")
+        def updatedAccount = new Account(accountId: uuid, name: "New Sample Name")
+        when:
+        def accountAfterUpdate = accountService.updateAccount(updatedAccount)
+        then:
+        1 * accountRepository.findByAccountId(existingAccount.getAccountId()) >> existingAccount
+        accountAfterUpdate.getName() == "New Sample Name"
+    }
+
     def "test findAccount"() {
         given:
         def uuid = UUID.randomUUID()

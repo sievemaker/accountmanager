@@ -35,4 +35,17 @@ class AccountApiDelegateImplTest extends Specification {
         1 * accountService.findAccount(UUID.fromString(accountId)) >> accountEntity
         1 * accountMapper.toDto(accountEntity)
     }
+
+    def "UpdateAccount"() {
+        given:
+        def account = new Account()
+        def accountEntity = new io.github.lrzeszotarski.accountmanager.domain.entity.Account()
+        def updatedEntity = new io.github.lrzeszotarski.accountmanager.domain.entity.Account()
+        when:
+        testedInstance.updateAccount(account)
+        then:
+        1 * accountMapper.toEntity(account) >> accountEntity
+        1 * accountService.updateAccount(accountEntity) >> updatedEntity
+        1 * accountMapper.toDto(updatedEntity)
+    }
 }

@@ -30,4 +30,11 @@ public class AccountServiceImpl implements AccountService {
     public Account findAccount(UUID accountID) {
         return accountRepository.findByAccountId(accountID);
     }
+
+    @Override
+    public Account updateAccount(Account account) {
+        final Account existingAccount = accountRepository.findByAccountId(account.getAccountId());
+        existingAccount.setName(account.getName());
+        return existingAccount;
+    }
 }

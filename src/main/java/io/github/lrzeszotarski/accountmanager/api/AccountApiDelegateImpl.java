@@ -31,4 +31,10 @@ public class AccountApiDelegateImpl implements AccountApiDelegate {
     public ResponseEntity<Account> getAccounts(String accountId) {
         return ResponseEntity.ok(accountMapper.toDto(accountService.findAccount(UUID.fromString(accountId))));
     }
+
+    @Override
+    public ResponseEntity<Account> updateAccount(Account body) {
+        io.github.lrzeszotarski.accountmanager.domain.entity.Account entity = accountMapper.toEntity(body);
+        return ResponseEntity.ok(accountMapper.toDto(accountService.updateAccount(entity)));
+    }
 }

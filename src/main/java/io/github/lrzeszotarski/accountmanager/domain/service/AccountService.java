@@ -8,4 +8,6 @@ public interface AccountService {
     Account createAccount(Account account);
 
     Account findAccount(UUID fromString);
+
+    Account updateAccount(Account account);
 }
