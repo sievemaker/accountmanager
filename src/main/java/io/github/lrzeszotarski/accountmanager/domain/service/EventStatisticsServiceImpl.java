@@ -8,6 +8,7 @@ import io.github.lrzeszotarski.accountmanager.domain.repository.EventStatisticsR
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 
 @Service
@@ -25,7 +26,7 @@ public class EventStatisticsServiceImpl implements EventStatisticsService {
 
     @Override
     public EventStatistics updateStatistics(Account account, Event event) {
-        final EventStatistics eventStatistics = eventStatisticsRepository.findByTypeAndAccountAndHappenedAt(event.getType(), account, event.getHappenedAt());
+        final EventStatistics eventStatistics = eventStatisticsRepository.findByTypeAndAccountAndHappenedAt(event.getType(), account, truncateToDate(event.getHappenedAt()));
         if (eventStatistics != null) {
             return updateEventStatistics(eventStatistics);
         }
@@ -36,7 +37,7 @@ public class EventStatisticsServiceImpl implements EventStatisticsService {
         final EventStatistics eventStatistics = new EventStatistics();
         eventStatistics.setCount(1L);
         eventStatistics.setAccount(account);
-        eventStatistics.setHappenedAt(event.getHappenedAt().truncatedTo(ChronoUnit.DAYS));
+        eventStatistics.setHappenedAt(truncateToDate(event.getHappenedAt()));
         eventStatistics.setType(event.getType());
         account.getEventStatisticsList().add(eventStatistics);
         accountRepository.save(account);
@@ -46,5 +47,9 @@ public class EventStatisticsServiceImpl implements EventStatisticsService {
     private EventStatistics updateEventStatistics(EventStatistics eventStatistics) {
         eventStatistics.setCount(eventStatistics.getCount() + 1);
         return eventStatistics;
+    }
+
+    private OffsetDateTime truncateToDate(final OffsetDateTime date) {
+        return date.truncatedTo(ChronoUnit.DAYS);
     }
 }

@@ -19,10 +19,13 @@ public class AccountServiceImpl implements AccountService {
 
     private final IdentifierService identifierService;
 
-    public AccountServiceImpl(AccountRepository accountRepository, EventRepository eventRepository, IdentifierService identifierService) {
+    private final EventStatisticsService eventStatisticsService;
+
+    public AccountServiceImpl(AccountRepository accountRepository, EventRepository eventRepository, IdentifierService identifierService, EventStatisticsService eventStatisticsService) {
         this.accountRepository = accountRepository;
         this.eventRepository = eventRepository;
         this.identifierService = identifierService;
+        this.eventStatisticsService = eventStatisticsService;
     }
 
     @Override
@@ -49,6 +52,7 @@ public class AccountServiceImpl implements AccountService {
         entity.setEventId(identifierService.generateIdentifier());
         entity.setAccount(account);
         account.getEventList().add(entity);
+        eventStatisticsService.updateStatistics(account, entity);
         accountRepository.save(account);
         return entity;
     }

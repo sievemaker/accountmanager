@@ -14,7 +14,6 @@ public class EventStatistics {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @Temporal(TemporalType.DATE)
     private OffsetDateTime happenedAt;
     private String type;
     private Long count;

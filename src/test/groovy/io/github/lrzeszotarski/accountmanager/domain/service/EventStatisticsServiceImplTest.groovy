@@ -27,7 +27,7 @@ class EventStatisticsServiceImplTest extends Specification {
         when:
         def eventStatistics = testedInstance.updateStatistics(account, event)
         then:
-        1 * eventStatisticsRepository.findByTypeAndAccountAndHappenedAt(event.getType(), account, now) >> existingEventStatistics
+        1 * eventStatisticsRepository.findByTypeAndAccountAndHappenedAt(event.getType(), account, now.truncatedTo(ChronoUnit.DAYS)) >> existingEventStatistics
         eventStatistics.getCount() == 22
     }
 
@@ -39,7 +39,7 @@ class EventStatisticsServiceImplTest extends Specification {
         when:
         def eventStatistics = testedInstance.updateStatistics(account, event)
         then:
-        1 * eventStatisticsRepository.findByTypeAndAccountAndHappenedAt(event.getType(), account, now) >> null
+        1 * eventStatisticsRepository.findByTypeAndAccountAndHappenedAt(event.getType(), account, now.truncatedTo(ChronoUnit.DAYS)) >> null
         eventStatistics.getCount() == 1
         eventStatistics.getType() == event.getType()
         eventStatistics.getAccount() == event.getAccount()

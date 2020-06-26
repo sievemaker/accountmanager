@@ -14,7 +14,9 @@ class AccountServiceImplTest extends Specification {
 
     def identifierService = Mock(IdentifierService)
 
-    def testedInstance = new AccountServiceImpl(accountRepository, eventRepository, identifierService)
+    def eventStatisticsService = Mock(EventStatisticsService)
+
+    def testedInstance = new AccountServiceImpl(accountRepository, eventRepository, identifierService, eventStatisticsService)
 
     def "test createAccount"() {
         given:
@@ -65,6 +67,7 @@ class AccountServiceImplTest extends Specification {
         1 * accountRepository.findByAccountId(accountUuid) >> account
         1 * accountRepository.save(account)
         1 * identifierService.generateIdentifier() >> eventUuid
+        1 * eventStatisticsService.updateStatistics(account, event)
         account.getEventList().size() == 1
         account.getEventList().get(0).getEventId() == eventUuid
         account.getEventList().get(0) == createdEvent
