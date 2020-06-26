@@ -71,15 +71,31 @@ class AccountServiceImplTest extends Specification {
         event.getAccount() == account
     }
 
-    def "test findEvent"() {
+    def "test findEvent if match with account"() {
         given:
-        def uuid = UUID.randomUUID()
-        def event = new Event(eventId: uuid)
+        def accountId = UUID.randomUUID()
+        def eventId = UUID.randomUUID()
+        def account = new Account(accountId: accountId)
+        def event = new Event(eventId: eventId, account: account)
         when:
-        def searchedEvent = testedInstance.findEvent(uuid)
+        def searchedEvent = testedInstance.findEvent(accountId, eventId)
         then:
-        1 * eventRepository.findByEventId(uuid) >> event
+        1 * eventRepository.findByEventId(eventId) >> event
         event == searchedEvent
-        searchedEvent.getEventId() == uuid
+        searchedEvent.getEventId() == eventId
+    }
+
+    def "test findEvent if not matched with account"() {
+        given:
+        def accountId = UUID.randomUUID()
+        def otherAccountId = UUID.randomUUID()
+        def eventId = UUID.randomUUID()
+        def otherAccount = new Account(accountId: otherAccountId)
+        def event = new Event(eventId: eventId, account: otherAccount)
+        when:
+        def searchedEvent = testedInstance.findEvent(accountId, eventId)
+        then:
+        1 * eventRepository.findByEventId(eventId) >> event
+        searchedEvent == null
     }
 }

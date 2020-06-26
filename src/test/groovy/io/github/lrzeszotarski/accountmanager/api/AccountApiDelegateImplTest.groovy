@@ -68,12 +68,13 @@ class AccountApiDelegateImplTest extends Specification {
 
     def "FindEvent"() {
         given:
+        def accountId = UUID.randomUUID().toString()
         def eventId = UUID.randomUUID().toString()
         def eventEntity = new io.github.lrzeszotarski.accountmanager.domain.entity.Event()
         when:
-        testedInstance.searchEvent(null, eventId)
+        testedInstance.searchEvent(accountId, eventId)
         then:
-        1 * accountService.findEvent(UUID.fromString(eventId)) >> eventEntity
+        1 * accountService.findEvent(UUID.fromString(accountId), UUID.fromString(eventId)) >> eventEntity
         1 * eventMapper.toDto(eventEntity)
     }
 }

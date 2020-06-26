@@ -14,5 +14,5 @@ public interface AccountService {
 
     Event createEvent(UUID accountId, Event entity);
 
-    Event findEvent(UUID fromString);
+    Event findEvent(UUID accountId, UUID eventId);
 }

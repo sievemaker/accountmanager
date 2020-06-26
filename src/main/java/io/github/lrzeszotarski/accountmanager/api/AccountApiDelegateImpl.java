@@ -50,6 +50,6 @@ public class AccountApiDelegateImpl implements AccountApiDelegate {
 
     @Override
     public ResponseEntity<Event> searchEvent(String accountId, String eventId) {
-        return ResponseEntity.ok(eventMapper.toDto(accountService.findEvent(UUID.fromString(eventId))));
+        return ResponseEntity.ok(eventMapper.toDto(accountService.findEvent(UUID.fromString(accountId), UUID.fromString(eventId))));
     }
 }

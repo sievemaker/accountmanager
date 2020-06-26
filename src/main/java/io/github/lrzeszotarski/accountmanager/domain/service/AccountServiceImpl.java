@@ -54,7 +54,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Event findEvent(UUID eventId) {
-        return eventRepository.findByEventId(eventId);
+    public Event findEvent(UUID accountId, UUID eventId) {
+        final Event event = eventRepository.findByEventId(eventId);
+        return event.getAccount().getAccountId().equals(accountId) ? event : null;
     }
 }
