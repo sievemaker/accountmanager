@@ -2,7 +2,6 @@ package io.github.lrzeszotarski.accountmanager.api
 
 import io.github.lrzeszotarski.accountmanager.api.model.Account
 import io.github.lrzeszotarski.accountmanager.api.model.Event
-import io.github.lrzeszotarski.accountmanager.api.model.EventStatistics
 import io.github.lrzeszotarski.accountmanager.domain.service.AccountService
 import io.github.lrzeszotarski.accountmanager.domain.service.EventStatisticsService
 import io.github.lrzeszotarski.accountmanager.mapper.AccountMapper
