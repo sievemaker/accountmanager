@@ -68,6 +68,7 @@ class AccountServiceImplTest extends Specification {
         account.getEventList().size() == 1
         account.getEventList().get(0).getEventId() == eventUuid
         account.getEventList().get(0) == createdEvent
+        event.getAccount() == account
     }
 
     def "test findEvent"() {

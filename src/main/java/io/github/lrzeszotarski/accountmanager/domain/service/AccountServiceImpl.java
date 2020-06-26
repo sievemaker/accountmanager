@@ -47,6 +47,7 @@ public class AccountServiceImpl implements AccountService {
     public Event createEvent(UUID accountId, Event entity) {
         final Account account = accountRepository.findByAccountId(accountId);
         entity.setEventId(identifierService.generateIdentifier());
+        entity.setAccount(account);
         account.getEventList().add(entity);
         accountRepository.save(account);
         return entity;
