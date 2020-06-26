@@ -3,6 +3,7 @@ package io.github.lrzeszotarski.accountmanager.domain.service;
 import io.github.lrzeszotarski.accountmanager.domain.entity.Account;
 import io.github.lrzeszotarski.accountmanager.domain.entity.Event;
 import io.github.lrzeszotarski.accountmanager.domain.entity.EventStatistics;
+import io.github.lrzeszotarski.accountmanager.domain.repository.AccountRepository;
 import io.github.lrzeszotarski.accountmanager.domain.repository.EventStatisticsRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,11 @@ public class EventStatisticsServiceImpl implements EventStatisticsService {
 
     private final EventStatisticsRepository eventStatisticsRepository;
 
-    public EventStatisticsServiceImpl(EventStatisticsRepository eventStatisticsRepository) {
+    private final AccountRepository accountRepository;
+
+    public EventStatisticsServiceImpl(EventStatisticsRepository eventStatisticsRepository, AccountRepository accountRepository) {
         this.eventStatisticsRepository = eventStatisticsRepository;
+        this.accountRepository = accountRepository;
     }
 
     @Override
@@ -34,6 +38,7 @@ public class EventStatisticsServiceImpl implements EventStatisticsService {
         eventStatistics.setHappenedAt(event.getHappenedAt());
         eventStatistics.setType(event.getType());
         account.getEventStatisticsList().add(eventStatistics);
+        accountRepository.save(account);
         return eventStatistics;
     }
 
