@@ -48,7 +48,6 @@ public class EventStatisticsServiceImpl implements EventStatisticsService {
         eventStatistics.setDay(truncateToDate(event.getHappenedAt()));
         eventStatistics.setType(event.getType());
         account.getEventStatisticsList().add(eventStatistics);
-        accountRepository.save(account);
         return eventStatistics;
     }
 

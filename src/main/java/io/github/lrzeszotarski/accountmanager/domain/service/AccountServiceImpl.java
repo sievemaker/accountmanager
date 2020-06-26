@@ -53,7 +53,6 @@ public class AccountServiceImpl implements AccountService {
         entity.setAccount(account);
         account.getEventList().add(entity);
         eventStatisticsService.updateStatistics(account, entity);
-        accountRepository.save(account);
         return entity;
     }
 
