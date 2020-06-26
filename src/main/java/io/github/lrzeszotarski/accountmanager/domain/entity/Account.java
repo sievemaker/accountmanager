@@ -20,4 +20,7 @@ public class Account {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
     private List<Event> eventList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account")
+    private List<EventStatistics> eventStatisticsList;
 }
