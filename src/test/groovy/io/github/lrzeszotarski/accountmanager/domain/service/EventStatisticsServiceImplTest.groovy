@@ -27,7 +27,7 @@ class EventStatisticsServiceImplTest extends Specification {
         when:
         def eventStatistics = testedInstance.updateStatistics(account, event)
         then:
-        1 * eventStatisticsRepository.findByTypeAndAccountAndHappenedAt(event.getType(), account, now.truncatedTo(ChronoUnit.DAYS)) >> existingEventStatistics
+        1 * eventStatisticsRepository.findByTypeAndAccountAndDay(event.getType(), account, now.truncatedTo(ChronoUnit.DAYS)) >> existingEventStatistics
         eventStatistics.getCount() == 22
     }
 
@@ -39,10 +39,22 @@ class EventStatisticsServiceImplTest extends Specification {
         when:
         def eventStatistics = testedInstance.updateStatistics(account, event)
         then:
-        1 * eventStatisticsRepository.findByTypeAndAccountAndHappenedAt(event.getType(), account, now.truncatedTo(ChronoUnit.DAYS)) >> null
+        1 * eventStatisticsRepository.findByTypeAndAccountAndDay(event.getType(), account, now.truncatedTo(ChronoUnit.DAYS)) >> null
         eventStatistics.getCount() == 1
         eventStatistics.getType() == event.getType()
         eventStatistics.getAccount() == event.getAccount()
-        eventStatistics.getHappenedAt() == event.getHappenedAt().truncatedTo(ChronoUnit.DAYS)
+        eventStatistics.getDay() == event.getHappenedAt().truncatedTo(ChronoUnit.DAYS)
+    }
+
+    def "test getStatistics"() {
+        given:
+        def accountId = UUID.randomUUID()
+        def now = OffsetDateTime.now()
+        def account = new Account(eventStatisticsList: new ArrayList<EventStatistics>())
+        when:
+        testedInstance.getStatistics(accountId, now)
+        then:
+        1 * accountRepository.findByAccountId(accountId) >> account
+        1 * eventStatisticsRepository.findAllByAccountAndDay(account, now)
     }
 }

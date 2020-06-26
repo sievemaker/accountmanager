@@ -14,7 +14,7 @@ public class EventStatistics {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    private OffsetDateTime happenedAt;
+    private OffsetDateTime day;
     private String type;
     private Long count;
 

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -26,18 +28,24 @@ public class EventStatisticsServiceImpl implements EventStatisticsService {
 
     @Override
     public EventStatistics updateStatistics(Account account, Event event) {
-        final EventStatistics eventStatistics = eventStatisticsRepository.findByTypeAndAccountAndHappenedAt(event.getType(), account, truncateToDate(event.getHappenedAt()));
+        final EventStatistics eventStatistics = eventStatisticsRepository.findByTypeAndAccountAndDay(event.getType(), account, truncateToDate(event.getHappenedAt()));
         if (eventStatistics != null) {
             return updateEventStatistics(eventStatistics);
         }
         return createEventStatistics(account, event);
     }
 
+    @Override
+    public List<EventStatistics> getStatistics(UUID accountId, OffsetDateTime day) {
+        final Account account = accountRepository.findByAccountId(accountId);
+        return eventStatisticsRepository.findAllByAccountAndDay(account, day);
+    }
+
     private EventStatistics createEventStatistics(Account account, Event event) {
         final EventStatistics eventStatistics = new EventStatistics();
         eventStatistics.setCount(1L);
         eventStatistics.setAccount(account);
-        eventStatistics.setHappenedAt(truncateToDate(event.getHappenedAt()));
+        eventStatistics.setDay(truncateToDate(event.getHappenedAt()));
         eventStatistics.setType(event.getType());
         account.getEventStatisticsList().add(eventStatistics);
         accountRepository.save(account);

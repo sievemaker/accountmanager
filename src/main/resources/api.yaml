@@ -107,6 +107,42 @@ paths:
         405:
           description: Validation exception
           content: {}
+  /account/{accountId}/statistics:
+    get:
+      tags:
+        - account
+      summary: Get an existing account statistics per day
+      operationId: getAccountStatistics
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: day
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+      responses:
+        200:
+          description: Searched Event
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: '#/components/schemas/EventStatistics'
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Account not found
+          content: {}
+        405:
+          description: Validation exception
+          content: {}
   /account/{accountId}/event:
     post:
       tags:
@@ -193,6 +229,18 @@ components:
           format: date-time
       xml:
         name: Event
+    EventStatistics:
+      type: object
+      properties:
+        count:
+          type: integer
+        type:
+          type: string
+        day:
+          type: string
+          format: date-time
+      xml:
+        name: EventStatistics
     ApiResponse:
       type: object
       properties:

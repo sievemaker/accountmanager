@@ -2,10 +2,15 @@ package io.github.lrzeszotarski.accountmanager.api
 
 import io.github.lrzeszotarski.accountmanager.api.model.Account
 import io.github.lrzeszotarski.accountmanager.api.model.Event
+import io.github.lrzeszotarski.accountmanager.api.model.EventStatistics
 import io.github.lrzeszotarski.accountmanager.domain.service.AccountService
+import io.github.lrzeszotarski.accountmanager.domain.service.EventStatisticsService
 import io.github.lrzeszotarski.accountmanager.mapper.AccountMapper
 import io.github.lrzeszotarski.accountmanager.mapper.EventMapper
+import io.github.lrzeszotarski.accountmanager.mapper.EventStatisticsMapper
 import spock.lang.Specification
+
+import java.time.OffsetDateTime
 
 class AccountApiDelegateImplTest extends Specification {
 
@@ -13,9 +18,13 @@ class AccountApiDelegateImplTest extends Specification {
 
     def eventMapper = Mock(EventMapper)
 
+    def eventStatisticsMapper = Mock(EventStatisticsMapper)
+
     def accountService = Mock(AccountService)
 
-    def testedInstance = new AccountApiDelegateImpl(accountMapper, eventMapper, accountService)
+    def eventStatisticsService = Mock(EventStatisticsService)
+
+    def testedInstance = new AccountApiDelegateImpl(accountMapper, eventMapper, eventStatisticsMapper, accountService, eventStatisticsService)
 
     def "CreateAccount"() {
         given:
@@ -76,5 +85,20 @@ class AccountApiDelegateImplTest extends Specification {
         then:
         1 * accountService.findEvent(UUID.fromString(accountId), UUID.fromString(eventId)) >> eventEntity
         1 * eventMapper.toDto(eventEntity)
+    }
+
+    def "GetAccountStatistics"() {
+        given:
+        def accountId = UUID.randomUUID().toString()
+        def now = OffsetDateTime.now()
+        def statistics = List.of(
+                new io.github.lrzeszotarski.accountmanager.domain.entity.EventStatistics(),
+                new io.github.lrzeszotarski.accountmanager.domain.entity.EventStatistics())
+        when:
+        testedInstance.getAccountStatistics(accountId, now)
+        then:
+        1 * eventStatisticsService.getStatistics(UUID.fromString(accountId), now) >> statistics
+        1 * eventStatisticsMapper.toDto(statistics.get(0))
+        1 * eventStatisticsMapper.toDto(statistics.get(1))
     }
 }
