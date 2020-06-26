@@ -8,6 +8,7 @@ import io.github.lrzeszotarski.accountmanager.domain.repository.EventStatisticsR
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.temporal.ChronoUnit;
 
 @Service
 @Transactional
@@ -35,7 +36,7 @@ public class EventStatisticsServiceImpl implements EventStatisticsService {
         final EventStatistics eventStatistics = new EventStatistics();
         eventStatistics.setCount(1L);
         eventStatistics.setAccount(account);
-        eventStatistics.setHappenedAt(event.getHappenedAt());
+        eventStatistics.setHappenedAt(event.getHappenedAt().truncatedTo(ChronoUnit.DAYS));
         eventStatistics.setType(event.getType());
         account.getEventStatisticsList().add(eventStatistics);
         accountRepository.save(account);
