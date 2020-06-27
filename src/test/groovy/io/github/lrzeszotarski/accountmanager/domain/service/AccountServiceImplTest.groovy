@@ -100,4 +100,18 @@ class AccountServiceImplTest extends Specification {
         1 * eventRepository.findByEventId(eventId) >> event
         searchedEvent == null
     }
+
+    def "test findEvent if event not found"() {
+        given:
+        def accountId = UUID.randomUUID()
+        def otherAccountId = UUID.randomUUID()
+        def eventId = UUID.randomUUID()
+        def otherAccount = new Account(accountId: otherAccountId)
+        def event = new Event(eventId: eventId, account: otherAccount)
+        when:
+        def searchedEvent = testedInstance.findEvent(accountId, eventId)
+        then:
+        1 * eventRepository.findByEventId(eventId) >> null
+        searchedEvent == null
+    }
 }
