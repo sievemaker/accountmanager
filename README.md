@@ -17,8 +17,8 @@ API Documentation:
 ==================
 http://localhost:8080/swagger-ui.html#/account
 
-Example Request:
-================
+Example Requests:
+=================
 Create an account: 
 ------------------
 ```
