@@ -1,5 +1,5 @@
 # accountmanager
-Spring Boot that allows to manage accounts and collect events for an account.
+Spring Boot Application that allows to manage accounts and collect events for an account.
 The application clients are
 other applications that manage accounts and events through an API.
 
