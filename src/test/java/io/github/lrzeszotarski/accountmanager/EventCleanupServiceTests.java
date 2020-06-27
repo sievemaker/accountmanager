@@ -6,12 +6,10 @@ import io.github.lrzeszotarski.accountmanager.domain.service.EventCleanupService
 import io.github.lrzeszotarski.accountmanager.domain.service.TimeService;
 import io.github.lrzeszotarski.accountmanager.scheduler.ScheduledTasks;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
@@ -20,7 +18,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 
 @SpringBootTest
