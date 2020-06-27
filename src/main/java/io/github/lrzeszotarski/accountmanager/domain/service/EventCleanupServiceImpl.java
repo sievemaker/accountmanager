@@ -20,6 +20,6 @@ public class EventCleanupServiceImpl implements EventCleanupService {
 
     @Override
     public long cleanupEvents() {
-        return eventRepository.deleteByHappenedAt(timeService.get30DaysAgoDate());
+        return eventRepository.deleteByHappenedAtBefore(timeService.getMinimumDateForValidEvents());
     }
 }

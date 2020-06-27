@@ -9,5 +9,5 @@ import java.util.UUID;
 public interface EventRepository extends JpaRepository<Event, Long> {
     Event findByEventId(UUID eventId);
 
-    long deleteByHappenedAt(OffsetDateTime day);
+    long deleteByHappenedAtBefore(OffsetDateTime day);
 }

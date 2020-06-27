@@ -19,7 +19,7 @@ class EventCleanupServiceImplTest extends Specification {
         when:
         testedInstance.cleanupEvents()
         then:
-        1 * timeService.get30DaysAgoDate() >> someDate
-        1 * eventRepository.deleteByHappenedAt(someDate)
+        1 * timeService.getMinimumDateForValidEvents() >> someDate
+        1 * eventRepository.deleteByHappenedAtBefore(someDate)
     }
 }
