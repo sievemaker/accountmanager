@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Swagger for Account Manager
-  description: Spring Boot that allows to manage accounts and collect events for an
+  description: Spring Boot Application that allows to manage accounts and collect events for an
     account.
   termsOfService: http://swagger.io/terms/
   contact:
@@ -180,7 +180,7 @@ paths:
     get:
       tags:
         - account
-      summary: Get an existing Event
+      summary: Get an existing event
       operationId: searchEvent
       parameters:
         - name: accountId
