@@ -3,7 +3,7 @@ Spring Boot Application that allows to manage accounts and collect events for an
 The application clients are
 other applications that manage accounts and events through an API.
 
-Accounts can be listed, created and updated. Clients should only have to provide an account name. Events can be listed and added, but neither updated, nor deleted.
+Accounts can be listed, created and updated. Events can be listed and added, but neither updated, nor deleted.
 
 Account statistics for a single account can be requested through the API.
 
