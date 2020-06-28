@@ -9,11 +9,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 @SpringBootTest
 public class AccountApiFindEventTests {
@@ -32,24 +34,77 @@ public class AccountApiFindEventTests {
 
     @Test
     public void testFindEventWhenEventExists() {
+        final OffsetDateTime now = OffsetDateTime.now();
+
         final Account accountToCreate = new Account();
         accountToCreate.setName("Sample Name");
+
         final ResponseEntity<Account> createAccountResponse = accountApiDelegate.createAccount(accountToCreate);
         final Account createdAccount = createAccountResponse.getBody();
+
         final Event eventToCreate = new Event();
         eventToCreate.setType("Some Event Type");
-        eventToCreate.setHappenedAt(OffsetDateTime.now());
+        eventToCreate.setHappenedAt(now);
         final ResponseEntity<Event> createdEventResponse = accountApiDelegate.createEvent(createdAccount.getAccountId().toString(), eventToCreate);
-        
+        final Event createdEvent = createdEventResponse.getBody();
+
+        final ResponseEntity<Event> eventResponseEntity = accountApiDelegate.searchEvent(createdAccount.getAccountId().toString(), createdEvent.getEventId().toString());
+        final Event searchedEvent = eventResponseEntity.getBody();
+
+        assertEquals(HttpStatus.OK, eventResponseEntity.getStatusCode());
+        assertEquals("Some Event Type", searchedEvent.getType());
+        assertEquals(now, searchedEvent.getHappenedAt());
+        assertEquals(createdEvent.getEventId(), searchedEvent.getEventId());
     }
 
     @Test
     public void testFindEventWhenEventDoesNotExist() {
-        assertFalse(true);
+        final OffsetDateTime now = OffsetDateTime.now();
+
+        final Account accountToCreate = new Account();
+        accountToCreate.setName("Sample Name");
+
+        final ResponseEntity<Account> createAccountResponse = accountApiDelegate.createAccount(accountToCreate);
+        final Account createdAccount = createAccountResponse.getBody();
+
+        final Event eventToCreate = new Event();
+        eventToCreate.setType("Some Event Type");
+        eventToCreate.setHappenedAt(now);
+        final ResponseEntity<Event> createdEventResponse = accountApiDelegate.createEvent(createdAccount.getAccountId().toString(), eventToCreate);
+        final Event createdEvent = createdEventResponse.getBody();
+
+        final ResponseEntity<Event> eventResponseEntity = accountApiDelegate.searchEvent(createdAccount.getAccountId().toString(), UUID.randomUUID().toString());
+        final Event searchedEvent = eventResponseEntity.getBody();
+
+        assertEquals(HttpStatus.OK, eventResponseEntity.getStatusCode());
+        assertNull(searchedEvent);
     }
 
     @Test
     public void testFindEventWhenEventDoesNotMatchWithAccount() {
-        assertFalse(true);
+        final OffsetDateTime now = OffsetDateTime.now();
+
+        final Account accountToCreate = new Account();
+        accountToCreate.setName("Sample Name");
+        final Account someOtherAccountToCreate = new Account();
+        someOtherAccountToCreate.setName("Account Without Events");
+
+        final ResponseEntity<Account> createAccountResponse = accountApiDelegate.createAccount(accountToCreate);
+        final Account createdAccount = createAccountResponse.getBody();
+
+        final ResponseEntity<Account> createSomeOtherAccountResponse = accountApiDelegate.createAccount(someOtherAccountToCreate);
+        final Account someOtherAccount = createSomeOtherAccountResponse.getBody();
+
+        final Event eventToCreate = new Event();
+        eventToCreate.setType("Some Event Type");
+        eventToCreate.setHappenedAt(now);
+        final ResponseEntity<Event> createdEventResponse = accountApiDelegate.createEvent(createdAccount.getAccountId().toString(), eventToCreate);
+        final Event createdEvent = createdEventResponse.getBody();
+
+        final ResponseEntity<Event> eventResponseEntity = accountApiDelegate.searchEvent(someOtherAccount.getAccountId().toString(), createdEvent.getEventId().toString());
+        final Event searchedEvent = eventResponseEntity.getBody();
+
+        assertEquals(HttpStatus.OK, eventResponseEntity.getStatusCode());
+        assertNull(searchedEvent);
     }
 }
