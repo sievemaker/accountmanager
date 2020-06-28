@@ -1,4 +1,4 @@
-package io.github.lrzeszotarski.accountmanager;
+package io.github.lrzeszotarski.accountmanager.scheduler;
 
 import io.github.lrzeszotarski.accountmanager.domain.entity.Event;
 import io.github.lrzeszotarski.accountmanager.domain.repository.EventRepository;
