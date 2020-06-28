@@ -42,6 +42,9 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account updateAccount(Account account) {
         final Account existingAccount = accountRepository.findByAccountId(account.getAccountId());
+        if (existingAccount == null) {
+            return null;
+        }
         existingAccount.setName(account.getName());
         return existingAccount;
     }
