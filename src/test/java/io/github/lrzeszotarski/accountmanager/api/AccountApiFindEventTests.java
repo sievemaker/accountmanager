@@ -71,7 +71,6 @@ public class AccountApiFindEventTests {
         eventToCreate.setType("Some Event Type");
         eventToCreate.setHappenedAt(now);
         final ResponseEntity<Event> createdEventResponse = accountApiDelegate.createEvent(createdAccount.getAccountId().toString(), eventToCreate);
-        final Event createdEvent = createdEventResponse.getBody();
 
         final ResponseEntity<Event> eventResponseEntity = accountApiDelegate.searchEvent(createdAccount.getAccountId().toString(), UUID.randomUUID().toString());
         final Event searchedEvent = eventResponseEntity.getBody();
