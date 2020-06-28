@@ -3,7 +3,6 @@ package io.github.lrzeszotarski.accountmanager.api;
 import io.github.lrzeszotarski.accountmanager.api.model.Account;
 import io.github.lrzeszotarski.accountmanager.api.model.Event;
 import io.github.lrzeszotarski.accountmanager.api.model.EventStatistics;
-import io.github.lrzeszotarski.accountmanager.domain.repository.AccountRepository;
 import io.github.lrzeszotarski.accountmanager.domain.repository.EventRepository;
 import io.github.lrzeszotarski.accountmanager.domain.service.EventCleanupService;
 import io.github.lrzeszotarski.accountmanager.scheduler.ScheduledTasks;

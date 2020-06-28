@@ -4,7 +4,6 @@ import io.github.lrzeszotarski.accountmanager.domain.entity.Event;
 import io.github.lrzeszotarski.accountmanager.domain.repository.EventRepository;
 import io.github.lrzeszotarski.accountmanager.domain.service.EventCleanupService;
 import io.github.lrzeszotarski.accountmanager.domain.service.TimeService;
-import io.github.lrzeszotarski.accountmanager.scheduler.ScheduledTasks;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
