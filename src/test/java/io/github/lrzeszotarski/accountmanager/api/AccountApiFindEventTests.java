@@ -26,12 +26,6 @@ public class AccountApiFindEventTests {
     @Autowired
     private AccountApiDelegate accountApiDelegate;
 
-    @Autowired
-    private AccountRepository accountRepository;
-
-    @Autowired
-    private EventRepository eventRepository;
-
     @MockBean
     private ScheduledTasks scheduledTasks;
 
