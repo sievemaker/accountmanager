@@ -14,6 +14,6 @@ public class TimeServiceImpl implements TimeService {
 
     @Override
     public OffsetDateTime getMinimumDateForValidEvents() {
-        return OffsetDateTime.now().minus(eventValidityPeriodInDays, ChronoUnit.DAYS);
+        return OffsetDateTime.now().minusDays(eventValidityPeriodInDays);
     }
 }

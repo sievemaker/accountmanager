@@ -45,27 +45,27 @@ public class EventCleanupServiceTests {
     public void testEventsCleanup() {
         final OffsetDateTime now = OffsetDateTime.now();
 
-        given(timeService.getMinimumDateForValidEvents()).willReturn(now.minus(eventValidityPeriodInDays, ChronoUnit.DAYS));
+        given(timeService.getMinimumDateForValidEvents()).willReturn(now.minusDays(eventValidityPeriodInDays));
 
         final Event eventOutdated1 = new Event();
         final UUID eventId1 = UUID.randomUUID();
         eventOutdated1.setEventId(eventId1);
-        eventOutdated1.setHappenedAt(now.minus(31, ChronoUnit.DAYS));
+        eventOutdated1.setHappenedAt(now.minusDays(31));
 
         final Event eventOutdated2 = new Event();
         final UUID eventId2 = UUID.randomUUID();
         eventOutdated2.setEventId(eventId2);
-        eventOutdated2.setHappenedAt(now.minus(30, ChronoUnit.DAYS).minus(1, ChronoUnit.MILLIS));
+        eventOutdated2.setHappenedAt(now.minusDays(30).minus(1, ChronoUnit.MILLIS));
 
         final Event eventValid1 = new Event();
         final UUID eventId3 = UUID.randomUUID();
         eventValid1.setEventId(eventId3);
-        eventValid1.setHappenedAt(now.minus(29, ChronoUnit.DAYS));
+        eventValid1.setHappenedAt(now.minusDays(29));
 
         final Event eventValid2 = new Event();
         UUID eventId4 = UUID.randomUUID();
         eventValid2.setEventId(eventId4);
-        eventValid2.setHappenedAt(now.minus(28, ChronoUnit.DAYS));
+        eventValid2.setHappenedAt(now.minusDays(28));
 
         eventRepository.saveAll(Stream.of(eventOutdated1, eventOutdated2, eventValid1, eventValid2).collect(Collectors.toList()));
 

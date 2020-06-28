@@ -46,7 +46,7 @@ public class AccountApiGetAccountStatisticsTests {
         final Account createdAccount = createAccountResponseEntity.getBody();
 
         final OffsetDateTime firstDate = OffsetDateTime.now();
-        final OffsetDateTime secondDate = OffsetDateTime.now().minus(1, ChronoUnit.DAYS);
+        final OffsetDateTime secondDate = OffsetDateTime.now().minusDays(1);
 
         final Event event1 = new Event();
         event1.setHappenedAt(firstDate);
