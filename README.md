@@ -9,6 +9,13 @@ Account statistics for a single account can be requested through the API.
 
 Events are to be deleted after 30 days, but still present in the statistical data.
 
+Docker Pull Command:
+====================
+```
+
+docker pull lrzeszotarski/accountmanager
+```
+
 REST API:
 =========
 http://localhost:8080/v2/account
