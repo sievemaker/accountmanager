@@ -16,7 +16,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static java.time.temporal.ChronoUnit.MILLIS;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -65,12 +66,12 @@ public class AccountApiCreateEventTests {
         final io.github.lrzeszotarski.accountmanager.domain.entity.Event firstSavedEvent = eventList.get(0);
         final io.github.lrzeszotarski.accountmanager.domain.entity.Event secondSavedEvent = eventList.get(1);
 
-        assertEquals(now, firstSavedEvent.getHappenedAt());
+        assertEquals(now.truncatedTo(MILLIS), firstSavedEvent.getHappenedAt().truncatedTo(MILLIS));
         assertEquals(savedAccount.getId(), firstSavedEvent.getAccount().getId());
         assertEquals("Some Type", firstSavedEvent.getType());
         assertEquals(createdFirstEvent.getEventId(), firstSavedEvent.getEventId());
 
-        assertEquals(now, secondSavedEvent.getHappenedAt());
+        assertEquals(now.truncatedTo(MILLIS), secondSavedEvent.getHappenedAt().truncatedTo(MILLIS));
         assertEquals(savedAccount.getId(), secondSavedEvent.getAccount().getId());
         assertEquals("Some Type", secondSavedEvent.getType());
         assertEquals(createdSecondEvent.getEventId(), secondSavedEvent.getEventId());
