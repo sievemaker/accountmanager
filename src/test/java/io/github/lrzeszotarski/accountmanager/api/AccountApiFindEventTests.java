@@ -2,8 +2,6 @@ package io.github.lrzeszotarski.accountmanager.api;
 
 import io.github.lrzeszotarski.accountmanager.api.model.Account;
 import io.github.lrzeszotarski.accountmanager.api.model.Event;
-import io.github.lrzeszotarski.accountmanager.domain.repository.AccountRepository;
-import io.github.lrzeszotarski.accountmanager.domain.repository.EventRepository;
 import io.github.lrzeszotarski.accountmanager.scheduler.ScheduledTasks;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +14,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static java.time.temporal.ChronoUnit.MILLIS;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -50,7 +49,7 @@ public class AccountApiFindEventTests {
 
         assertEquals(HttpStatus.OK, eventResponseEntity.getStatusCode());
         assertEquals("Some Event Type", searchedEvent.getType());
-        assertEquals(now, searchedEvent.getHappenedAt());
+        assertEquals(now.truncatedTo(MILLIS), searchedEvent.getHappenedAt().truncatedTo(MILLIS));
         assertEquals(createdEvent.getEventId(), searchedEvent.getEventId());
     }
 
