@@ -10,7 +10,7 @@
     </parent>
     <groupId>io.github.lrzeszotarski</groupId>
     <artifactId>accountmanager</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-RELEASE</version>
     <name>accountmanager</name>
     <description>Spring Boot that allows to manage accounts and collect events for an account.</description>
 
